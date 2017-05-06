@@ -14,11 +14,9 @@
   "permissions": [
     "activeTab",
     "contextMenus",
-    "tabs",
-    "http://*/"
+    "tabs"
   ],
   "background": {
-    "scripts": ["noClick.js"]
-  },
-
+    "scripts": ["noClick.js", "LDA.js"]
+  }
 }
