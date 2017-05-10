@@ -16,6 +16,8 @@ application = Flask(__name__)
 SENTENCES_COUNT = 5
 LANGUAGE = 'english'
 
+import nltk
+nltk.data.path.append("/usr/local/share/nltk_data")
 
 # Route for the actual summaries
 @application.route('/summarize', methods = [ "GET" ])
@@ -32,7 +34,7 @@ def summarize():
 	summarizer.stop_words = get_stop_words(LANGUAGE)
 
 	for sentence in summarizer(parser.document, SENTENCES_COUNT):
-		final.append(unidecode(str(sentence).decode('utf-8')))
+		final.append(unidecode(str(sentence)))
 
 	return json.dumps(final, encoding='utf-8')
 
