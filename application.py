@@ -8,6 +8,8 @@ from sumy.summarizers.text_rank import TextRankSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 
+import requests.exceptions
+
 from flask import Flask, request
 from unidecode import unidecode
 import json
@@ -32,14 +34,20 @@ def summarize():
 	# Checking the integrity of the num query
 	try:
 		num = int(request.args.get('num'))
+		if(num > 0):
+			SENTENCES_COUNT = num
 	except (ValueError, TypeError) as e:
 		num = None
 
-	if(num != None and num > 0):
-		SENTENCES_COUNT = num
 
-	# Parse and Summarize
-	parser = HtmlParser.from_url(url, Tokenizer(LANGUAGE))
+
+	# Handles error where url is not a valid url
+	try:
+		parser = HtmlParser.from_url(url, Tokenizer(LANGUAGE))
+	except requests.exceptions.MissingSchema:
+		return "Invalid URL.", 403
+
+
 	stemmer = Stemmer(LANGUAGE)
 	summarizer = Summarizer(stemmer)
 	summarizer.stop_words = get_stop_words(LANGUAGE)
