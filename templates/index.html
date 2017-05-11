@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <title>NoClick Summary</title>
+    <link href="{{ url_for('static', filename = 'style.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <div class="result-list">
+    <ul>
+      {% for result in results %}
+      	<li> {{ result }} </li>
+      {% endfor %}
+     </ul>
+    </div>
+  </body>
+</html>
+

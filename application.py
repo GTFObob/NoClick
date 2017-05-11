@@ -10,7 +10,7 @@ from sumy.utils import get_stop_words
 
 import requests.exceptions
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from unidecode import unidecode
 import json
 
@@ -20,16 +20,17 @@ application = Flask(__name__)
 @application.route('/summarize', methods = [ "GET" ])
 def summarize():
 
-	SENTENCES_COUNT = 5
+	SENTENCES_COUNT = 10
 	LANGUAGE = 'english'
+
 	final = []
 
 	# Checking the integrity of the url query
 	url = request.args.get('url')
 
-
+	
 	if(url == None):
-		return "Invalid Request", 404
+		return render_template("error.html", message = "Invalid Error. Please try again later."), 404
 
 	# Checking the integrity of the num query
 	try:
@@ -39,13 +40,11 @@ def summarize():
 	except (ValueError, TypeError) as e:
 		num = None
 
-
-
 	# Handles error where url is not a valid url
 	try:
 		parser = HtmlParser.from_url(url, Tokenizer(LANGUAGE))
-	except requests.exceptions.MissingSchema:
-		return "Invalid URL.", 403
+	except (requests.exceptions.MissingSchema, requests.exceptions.HTTPError) as e:
+		return render_template("error.html", message = url + " is an not a valid URL."), 403
 
 
 	stemmer = Stemmer(LANGUAGE)
@@ -57,7 +56,7 @@ def summarize():
 		# unidecode takes unicode characters and converts it into ASCII
 		final.append(unidecode(str(sentence)))
 
-	return json.dumps(final)
+	return render_template("index.html", results=final)
 
 @application.route('/', defaults={'path': ''})
 @application.route('/<path:path>')
