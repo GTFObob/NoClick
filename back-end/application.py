@@ -13,11 +13,6 @@ from unidecode import unidecode
 import json
 
 application = Flask(__name__)
-<<<<<<< HEAD
-=======
-import nltk
-nltk.data.path.append("/usr/local/share/nltk_data")
->>>>>>> 0e69c713c98d7f6b6cfc02c6e35fa0f0ada3950c
 
 # Route for the actual summaries
 @application.route('/summarize', methods = [ "GET" ])
