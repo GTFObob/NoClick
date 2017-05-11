@@ -27,6 +27,12 @@ nltk.data.path.append("/usr/local/share/nltk_data")
 def summarize():
 	final = []
 	url = request.args.get('url')
+	num = request.args.get('num')
+
+	if(num == None):
+		num = SENTENCES_COUNT
+	else:
+		SENTENCES_COUNT = num
 
 	if(url == None):
 		return "Invalid Request", 404
