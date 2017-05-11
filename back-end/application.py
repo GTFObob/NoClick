@@ -16,22 +16,20 @@ import sys
 print(sys.version_info)
 
 application = Flask(__name__)
-SENTENCES_COUNT = 5
-LANGUAGE = 'english'
-
 import nltk
 nltk.data.path.append("/usr/local/share/nltk_data")
 
 # Route for the actual summaries
 @application.route('/summarize', methods = [ "GET" ])
 def summarize():
-	final = []
+        SENTENCES_COUNT = 5
+        LANGUAGE = 'english'
+
+        final = []
 	url = request.args.get('url')
 	num = request.args.get('num')
 
-	if(num == None):
-		num = SENTENCES_COUNT
-	else:
+	if(num != None):
 		SENTENCES_COUNT = num
 
 	if(url == None):
