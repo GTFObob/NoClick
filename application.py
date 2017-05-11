@@ -20,7 +20,7 @@ application = Flask(__name__)
 @application.route('/summarize', methods = [ "GET" ])
 def summarize():
 
-	SENTENCES_COUNT = 10
+	SENTENCES_COUNT = 5
 	LANGUAGE = 'english'
 
 	final = []
