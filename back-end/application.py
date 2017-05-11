@@ -32,7 +32,7 @@ def summarize():
 	# Checking the integrity of the num query
 	try:
 		num = int(request.args.get('num'))
-	except ValueError:
+	except (ValueError, TypeError) as e:
 		num = None
 
 	if(num != None and num > 0):
