@@ -12,37 +12,39 @@ from flask import Flask, request
 from unidecode import unidecode
 import json
 
-import sys
-print(sys.version_info)
-
 application = Flask(__name__)
-SENTENCES_COUNT = 5
-LANGUAGE = 'english'
-
-import nltk
-nltk.data.path.append("/usr/local/share/nltk_data")
 
 # Route for the actual summaries
 @application.route('/summarize', methods = [ "GET" ])
 def summarize():
+	SENTENCES_COUNT = 5
+	LANGUAGE = 'english'
 	final = []
-	url = request.args.get('url')
-	num = request.args.get('num')
 
-	if(num == None):
-		num = SENTENCES_COUNT
-	else:
-		SENTENCES_COUNT = num
+	# Checking the integrity of the url query
+	url = request.args.get('url')
 
 	if(url == None):
 		return "Invalid Request", 404
 
+	# Checking the integrity of the num query
+	try:
+		num = int(request.args.get('num'))
+	except ValueError:
+		num = None
+
+	if(num != None and num > 0):
+		SENTENCES_COUNT = num
+
+	# Parse and Summarize
 	parser = HtmlParser.from_url(url, Tokenizer(LANGUAGE))
 	stemmer = Stemmer(LANGUAGE)
 	summarizer = Summarizer(stemmer)
 	summarizer.stop_words = get_stop_words(LANGUAGE)
 
+	# Take each sentence and oppend
 	for sentence in summarizer(parser.document, SENTENCES_COUNT):
+		# unidecode takes unicode characters and converts it into ASCII
 		final.append(unidecode(str(sentence)))
 
 	return json.dumps(final)
