@@ -13,7 +13,7 @@ function contextClicked(info, tab) {
     	if(!info.linkUrl) return;
 
     	url = 'http://noclick-api.jrtzicmdwr.us-east-2.elasticbeanstalk.com/summarize';
-    	url += "?url=" + info.linkUrl;
+    	url += "?url=" + info.linkUrl + "&num=3";
     	
     	chrome.windows.create({url: url, type: 'popup', height: 600, width: 600}, 
             function(window) {});
