@@ -12,6 +12,9 @@ from flask import Flask, request
 from unidecode import unidecode
 import json
 
+import sys
+print(sys.version_info)
+
 application = Flask(__name__)
 SENTENCES_COUNT = 5
 LANGUAGE = 'english'
@@ -36,7 +39,7 @@ def summarize():
 	for sentence in summarizer(parser.document, SENTENCES_COUNT):
 		final.append(unidecode(str(sentence)))
 
-	return json.dumps(final, encoding='utf-8')
+	return json.dumps(final)
 
 @application.route('/', defaults={'path': ''})
 @application.route('/<path:path>')
