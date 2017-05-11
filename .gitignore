@@ -1,6 +1,7 @@
 NoClick.pem
 *.pyc
 nltk_data
+.DS_Store
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
