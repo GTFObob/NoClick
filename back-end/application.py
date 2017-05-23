@@ -62,3 +62,6 @@ def summarize():
 @application.route('/<path:path>')
 def catch_all(path):
     return "No summary found or invalid link entered.", 403
+
+if __name__ == "__main__":
+	application.run(host='0.0.0.0')
