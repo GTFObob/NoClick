@@ -1,5 +1,6 @@
 NoClick.pem
 *.pyc
+.vscode
 nltk_data
 .DS_Store
 
