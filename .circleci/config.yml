@@ -5,5 +5,9 @@ jobs:
         docker:
             - image: python:3.6.0
         steps:
+            - run: pip install awsebcli
             - checkout
             - run: echo "hello world"
+            - run: docker login -e "$DOCKER_EMAIL" -u "$DOCKER_ID" -p "$DOCKER_PASSWORD"
+            - run: ls -a
+            
