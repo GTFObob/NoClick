@@ -7,7 +7,6 @@ jobs:
         steps:
             - run: pip install awsebcli
             - checkout
-            - run: cd back-end
             - setup_remote_docker
             - run:
                 name: Install Docker client
@@ -19,6 +18,7 @@ jobs:
                     mv /tmp/docker/* /usr/bin
             - run: |
                 TAG=0.1.$CIRCLE_BUILD_NUM
+                cd back-end
                 docker build -t  sakshaat/noclick:$TAG . 
                 docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
                 ls -a
