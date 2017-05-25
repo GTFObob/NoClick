@@ -38,6 +38,7 @@ jobs:
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "circle" ]; then 
                         echo "TEST"
+                        cd back-end
                         eb init -r us-east-2 noclick -p Docker
                         eb deploy -l $CIRCLE_BUILD_NUM 
                     fi
@@ -46,6 +47,7 @@ jobs:
             - deploy:
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        cd back-end
                         eb init -r us-east-2 noclick -p Docker
                         eb deploy -l $CIRCLE_BUILD_NUM 
                     fi
