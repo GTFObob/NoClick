@@ -1,5 +1,9 @@
 version: 2
 jobs:
+    branches:
+        only:
+            - master
+            - circle
     build:
         working_directory: ~/noclick
         docker:
