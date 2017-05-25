@@ -7,7 +7,8 @@ jobs:
         steps:
             - run: pip install awsebcli
             - checkout
-            - run: echo "hello world"
+            - run: ls -a
+            - setup_remote_docker
             - run:
                 name: Install Docker client
                 command: |
