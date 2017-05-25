@@ -1,1 +1,9 @@
 version: 2
+jobs:
+    build:
+        working_directory: ~/noclick
+        docker:
+            - image: python:3.6.0
+        steps:
+            - checkout
+            - run: echo "hello world"
