@@ -1,17 +1,10 @@
 version: 2
 jobs:
     build:
-        # Only want the build to run for specific branches
-        branches:
-            only:
-                - master
-                - circle
-                - test
         working_directory: ~/noclick
         docker:
             - image: python:3.6.0
         steps:
-            - run: pip install awsebcli
             - checkout
             - setup_remote_docker
 
@@ -30,24 +23,28 @@ jobs:
                 TAG=0.1.$CIRCLE_BUILD_NUM
                 cd back-end
                 docker build -t  sakshaat/noclick:$TAG . 
-                docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
-                docker push sakshaat/noclick:$TAG
+            
+            # Tests
+            - run: |
+                echo "Add Tests"
 
-            # Deploy Test
-            - deploy:
-                command: |
-                    if [ "${CIRCLE_BRANCH}" == "circle" ]; then 
-                        echo "TEST"
-                        cd back-end
-                        eb init -r us-east-2 noclick -p Docker
-                        eb deploy -l $CIRCLE_BUILD_NUM 
-                    fi
+            # Deploy Test (Need to do later)
+            # - deploy:
+            #     command: |
+            #         if [ "${CIRCLE_BRANCH}" == "staging" ]; then 
+            #             cd back-end
+            #             eb init -r us-east-2 noclick-staging -p Docker
+            #             eb deploy -l $CIRCLE_BUILD_NUM 
+            #         fi
 
             # Deploy Production
             - deploy:
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        pip install awsebcli
                         cd back-end
+                        docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
+                        docker push sakshaat/noclick:$TAG
                         eb init -r us-east-2 noclick -p Docker
                         eb deploy -l $CIRCLE_BUILD_NUM 
                     fi
