@@ -41,6 +41,7 @@ jobs:
             - deploy:
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        TAG=0.1.$CIRCLE_BUILD_NUM
                         pip install awsebcli
                         cd back-end
                         docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
