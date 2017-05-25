@@ -38,7 +38,6 @@ jobs:
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "circle" ]; then 
                         echo "TEST"
-                        eb init -r us-east-2 noclick 
                         eb deploy -l $CIRCLE_BUILD_NUM 
                     fi
 
