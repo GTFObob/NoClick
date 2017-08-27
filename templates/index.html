@@ -1,17 +1,55 @@
 <!doctype html>
-<html>
-  <head>
-    <title>NoClick Summary</title>
-    <link href="{{ url_for('static', filename = 'style.css') }}" rel="stylesheet">
-  </head>
-  <body>
-    <div class="result-list">
-    <ul>
-      {% for result in results %}
-      	<li> {{ result }} </li>
-      {% endfor %}
-     </ul>
-    </div>
-  </body>
-</html>
 
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NoClick Summary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'semantic.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+
+</head>
+
+<body>
+    <div class="ui grid">
+        <div class="banner blue row">
+            <div class="column center aligned">
+                <h1>Welcome to NoClick</h1>
+                <p>Find the topic of a click-bait article without having to open it.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column center aligned">
+                <h3>Enter a link to get started:</h3>
+            </div>
+        </div>
+        <div class="row centered">
+            <div class="ui twelve wide column">
+                <div class="ui fluid big action input">
+                    <input id="search-input" type="text" placeholder="Enter a potential clickbait article.">
+                    <button id="search-button" class="ui button">Search</button>
+                </div>
+            </div>
+        </div>
+        <div id="response" class="ui padded disabled centered twelve wide column segment">
+            <h2></h2>
+            <ul></ul>
+        </div>
+    </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'semantic.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'script.js') }}"></script>
+
+    <div class="ui page dimmer">
+        <div class="content">
+            <div class="center">
+                <h3 class="message"></h3>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
