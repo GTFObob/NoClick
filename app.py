@@ -8,16 +8,19 @@ from sumy.summarizers.text_rank import TextRankSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 
-import requests.exceptions
+from bs4 import BeautifulSoup
 
-from flask import Flask, request, render_template
+import requests.exceptions
+import urllib.request
+
+from flask import Flask, request, render_template, abort
 from unidecode import unidecode
 import json
 
-application = Flask(__name__)
+app = Flask(__name__)
 
-# Route for the actual summaries
-@application.route('/summarize', methods = [ "GET" ])
+# Route for the summaries; API
+@app.route('/summarize', methods = [ "GET" ])
 def summarize():
 
 	SENTENCES_COUNT = 5
@@ -29,8 +32,8 @@ def summarize():
 	url = request.args.get('url')
 
 	
-	if(url == None):
-		return render_template("error.html", message = "Invalid Error. Please try again later."), 404
+	if(url == None or url == ""):
+		return abort(400)
 
 	# Checking the integrity of the num query
 	try:
@@ -44,24 +47,33 @@ def summarize():
 	try:
 		parser = HtmlParser.from_url(url, Tokenizer(LANGUAGE))
 	except (requests.exceptions.MissingSchema, requests.exceptions.HTTPError) as e:
-		return render_template("error.html", message = url + " is an not a valid URL."), 403
-
+		return "URL is not valid.", 403
 
 	stemmer = Stemmer(LANGUAGE)
 	summarizer = Summarizer(stemmer)
 	summarizer.stop_words = get_stop_words(LANGUAGE)
 
-	# Take each sentence and oppend
+	# Take each sentence and append
 	for sentence in summarizer(parser.document, SENTENCES_COUNT):
 		# unidecode takes unicode characters and converts it into ASCII
 		final.append(unidecode(str(sentence)))
 
-	return render_template("index.html", results=final)
+	response = urllib.request.urlopen(url)
+	html = response.read()
 
-@application.route('/', defaults={'path': ''})
-@application.route('/<path:path>')
+	soup = BeautifulSoup(html)
+	title = soup.html.head.title.getText()
+
+	return json.dumps({"title": title, "content":final})
+
+@app.route('/', defaults={'path': ''})
+def home(path):
+	return render_template("index.html")
+
+
+@app.route('/<path:path>')
 def catch_all(path):
-    return "No summary found or invalid link entered.", 403
+    return abort(404)
 
 if __name__ == "__main__":
-	application.run(host='0.0.0.0')
+	app.run(host='0.0.0.0')
