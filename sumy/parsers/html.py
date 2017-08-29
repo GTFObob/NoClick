@@ -20,6 +20,10 @@ class HtmlParser(DocumentParser):
         "em",
     )
 
+    IGNORE_TAGS = {
+        'figcaption'
+    }
+
     @classmethod
     def from_string(cls, string, url, tokenizer):
         return cls(string, tokenizer, url)

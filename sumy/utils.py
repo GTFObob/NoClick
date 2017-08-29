@@ -15,6 +15,7 @@ from ._compat import to_string, to_unicode, string_types
 
 _HTTP_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36 OPR/31.0.1889.174",
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     # "User-Agent": "Sumy (Automatic text summarizer) Version/%s" % __version__,
 }
 

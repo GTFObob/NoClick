@@ -58,10 +58,13 @@ def summarize():
 		# unidecode takes unicode characters and converts it into ASCII
 		final.append(unidecode(str(sentence)))
 
-	response = urllib.request.urlopen(url)
+	headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
+	req = urllib.request.Request(url, headers=headers)
+	
+	response = urllib.request.urlopen(req)
 	html = response.read()
 
-	soup = BeautifulSoup(html)
+	soup = BeautifulSoup(html, "lxml")
 	title = soup.html.head.title.getText()
 
 	return json.dumps({"title": title, "content":final})
