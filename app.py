@@ -9,16 +9,16 @@ from sumy.utils import get_stop_words
 
 from flask import Flask, request, render_template, abort
 from unidecode import unidecode
-import json
+import json, requests
 
 app = Flask(__name__)
+MIN_SENTENCES_COUNT = 5
+MAX_SENTENCES_COUNT = 10
+LANGUAGE = 'english'
 
 # Route for the summaries; API
 @app.route('/summarize', methods = [ "GET" ])
 def summarize():
-
-	SENTENCES_COUNT = 5
-	LANGUAGE = 'english'
 
 	final = []
 
@@ -32,23 +32,29 @@ def summarize():
 	# Checking the integrity of the num query
 	try:
 		num = int(request.args.get('num'))
-		if(num > 0):
-			SENTENCES_COUNT = num
+
+		num = MIN_SENTENCES_COUNT if num < MIN_SENTENCES_COUNT else num
+		num = MAX_SENTENCES_COUNT if num > MAX_SENTENCES_COUNT else num
+
 	except (ValueError, TypeError) as e:
-		num = None
+		num = MIN_SENTENCES_COUNT
 
 	# Handles error where url is not a valid url
 	try:
 		parser = Parser.from_url(url, Tokenizer(LANGUAGE))
 	except (requests.exceptions.MissingSchema, requests.exceptions.HTTPError) as e:
-		return "URL is not valid.", 403
+		try:
+			parser = Parser.from_url("http://" + url, Tokenizer(LANGUAGE))
+		except:
+			return "URL is not valid.", 403 
+
 
 	stemmer = Stemmer(LANGUAGE)
 	summarizer = Summarizer(stemmer)
 	summarizer.stop_words = get_stop_words(LANGUAGE)
 
 	# Take each sentence and append
-	for sentence in summarizer(parser.document, SENTENCES_COUNT):
+	for sentence in summarizer(parser.document, num):
 		# unidecode takes unicode characters and converts it into ASCII
 		final.append(unidecode(str(sentence)))
 
