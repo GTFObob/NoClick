@@ -1,17 +1,11 @@
 from __future__ import absolute_import
 from __future__ import division, print_function, unicode_literals
 
-from sumy.parsers.html import HtmlParser
-from sumy.parsers.plaintext import PlaintextParser
+from custom_parser import CustomParser as Parser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.text_rank import TextRankSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
-
-from bs4 import BeautifulSoup
-
-import requests.exceptions
-import urllib.request
 
 from flask import Flask, request, render_template, abort
 from unidecode import unidecode
@@ -45,7 +39,7 @@ def summarize():
 
 	# Handles error where url is not a valid url
 	try:
-		parser = HtmlParser.from_url(url, Tokenizer(LANGUAGE))
+		parser = Parser.from_url(url, Tokenizer(LANGUAGE))
 	except (requests.exceptions.MissingSchema, requests.exceptions.HTTPError) as e:
 		return "URL is not valid.", 403
 
@@ -58,16 +52,7 @@ def summarize():
 		# unidecode takes unicode characters and converts it into ASCII
 		final.append(unidecode(str(sentence)))
 
-	headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
-	req = urllib.request.Request(url, headers=headers)
-	
-	response = urllib.request.urlopen(req)
-	html = response.read()
-
-	soup = BeautifulSoup(html, "lxml")
-	title = soup.html.head.title.getText()
-
-	return json.dumps({"title": title, "content":final})
+	return json.dumps({"title": parser.get_title(), "content":final})
 
 @app.route('/', defaults={'path': ''})
 def home(path):

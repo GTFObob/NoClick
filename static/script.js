@@ -14,8 +14,12 @@ function update_display(elements) {
 }
 
 $(function() {
+    $('.ui.dropdown')
+        .dropdown();
+
     $("#search-button").click(function() {
-        req = { url: $("#search-input").val() }
+        var num = $("#dropdown-button .text").text().split(" ")[0]
+        req = { url: $("#search-input").val(), num: num }
 
         $.get({
             url: '/summarize',

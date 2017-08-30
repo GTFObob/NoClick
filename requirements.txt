@@ -1,6 +1,7 @@
 appdirs==1.4.3
 beautifulsoup4==4.6.0
 breadability==0.1.20
+bs4==0.0.1
 chardet==3.0.2
 click==6.7
 Cython==0.25.2
