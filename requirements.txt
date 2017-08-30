@@ -17,5 +17,6 @@ packaging==16.8
 pyparsing==2.2.0
 requests==2.13.0
 six==1.10.0
+sumy==0.7.0
 Unidecode==0.4.20
 Werkzeug==0.12.1
