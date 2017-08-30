@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NoClick</title>
@@ -23,12 +24,24 @@
         </div>
         <div class="row centered">
             <div class="ui twelve wide column">
-                <div class="ui fluid big action input">
+                <div class="ui fluid big right action input">
                     <input id="search-input" type="text" placeholder="Enter a potential clickbait article.">
+                    <div id="dropdown-button" class="ui basic floating dropdown button">
+                        <div class="text">5 lines</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item">6 lines</div>
+                            <div class="item">7 lines</div>
+                            <div class="item">8 lines</div>
+                            <div class="item">9 lines</div>
+                            <div class="item">10 lines</div>
+                        </div>
+                    </div>
                     <button id="search-button" class="ui button">Search</button>
                 </div>
             </div>
         </div>
+
         <div id="response" class="ui padded disabled centered twelve wide column segment">
             <h2></h2>
             <ul></ul>
