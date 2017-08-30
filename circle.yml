@@ -5,7 +5,7 @@ machine:
 dependencies:
     override:
         - pip install -r requirements.txt
-
+        - python -c "import nltk; nltk.download('punkt')"
 test:
     override:
         - python -m unittest discover
