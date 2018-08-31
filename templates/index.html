@@ -11,10 +11,10 @@
 
 <body>
     <div class="ui grid">
-        <div class="banner blue row">
-            <div class="column center aligned">
-                <h1>Welcome to NoClick</h1>
-                <p>Find the topic of a click-bait article without having to open it.</p>
+        <div class="banner teal row">
+            <div class="nav column aligned">
+                <h1>NoClick</h1>
+                <span><i>Get a summary of a click-bait article without having to actually open it</i></span>
             </div>
         </div>
         <div class="row">
@@ -37,7 +37,7 @@
                             <div class="item">10 lines</div>
                         </div>
                     </div>
-                    <button id="search-button" class="ui button">Search</button>
+                    <button id="search-button" class="ui button">Summarize</button>
                 </div>
             </div>
         </div>
@@ -46,9 +46,12 @@
             <h2></h2>
             <ul></ul>
         </div>
+        <footer class="ui teal row">
+            <h5>© Copyright 2018 <a class="orange" href="https://github.com/sakshaat"> Sakshaat Choyikandi</a></h5>
+        </footer>
     </div>
 
-    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ url_for('static', filename = 'semantic.min.js') }}"></script>

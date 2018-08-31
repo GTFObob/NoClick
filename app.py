@@ -1,14 +1,17 @@
 from __future__ import absolute_import
 from __future__ import division, print_function, unicode_literals
 
-from custom_parser import CustomParser as Parser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.text_rank import TextRankSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 
 from flask import Flask, request, render_template, abort
+
 from unidecode import unidecode
+
+from custom_parser import CustomParser as Parser
+
 import json, requests
 
 app = Flask(__name__)
